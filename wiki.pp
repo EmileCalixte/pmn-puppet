@@ -38,3 +38,21 @@ file {
     '/var/www/politique.wiki':
         ensure => directory
 }
+file {
+    'create recettes.wiki directory':
+        ensure  => directory,
+        path    => '/var/www/recettes.wiki',
+        source  => '/usr/src/dokuwiki',
+        recurse => true,
+        owner   => 'www-data',
+        group   => 'www-data'
+}
+file {
+    'create politique.wiki directory':
+        ensure  => directory,
+        path    => '/var/www/politique.wiki',
+        source  => '/usr/src/dokuwiki',
+        recurse => true,
+        owner   => 'www-data',
+        group   => 'www-data'
+}
