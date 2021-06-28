@@ -31,14 +31,6 @@ file {
 #        ensure => absent
 #}
 file {
-    '/var/www/recettes.wiki':
-        ensure => directory
-}
-file {
-    '/var/www/politique.wiki':
-        ensure => directory
-}
-file {
     'create recettes.wiki directory':
         ensure  => directory,
         path    => '/var/www/recettes.wiki',
