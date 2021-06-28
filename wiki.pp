@@ -25,11 +25,11 @@ file {
     '/usr/src/dokuwiki-2020-07-29':
         ensure => absent
 }
-file {
-    'delete archive':
-        path => '/usr/src/dokuwiki.tgz',
-        ensure => absent
-}
+#file {
+#    'delete archive':
+#        path => '/usr/src/dokuwiki.tgz',
+#        ensure => absent
+#}
 file {
     '/var/www/recettes.wiki':
         ensure => directory
