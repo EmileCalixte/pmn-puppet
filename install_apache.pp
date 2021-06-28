@@ -1,4 +1,4 @@
 package {
-    'apache':
+    'apache2':
         ensure => present
 }
