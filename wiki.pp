@@ -41,27 +41,38 @@ class dokuwiki {
     #}
 }
 
-node server0 {
-    include dokuwiki
+class recettes_wiki {
+    file {
+        'create recettes.wiki directory':
+            ensure  => directory,
+            path    => '/var/www/recettes.wiki',
+            source  => '/usr/src/dokuwiki',
+            recurse => true,
+            owner   => 'www-data',
+            group   => 'www-data',
+            require => File['rename dokuwiki']
+    }
 }
 
-# file {
-#     'create recettes.wiki directory':
-#         ensure  => directory,
-#         path    => '/var/www/recettes.wiki',
-#         source  => '/usr/src/dokuwiki',
-#         recurse => true,
-#         owner   => 'www-data',
-#         group   => 'www-data',
-#         require => File['rename dokuwiki']
-# }
-# file {
-#     'create politique.wiki directory':
-#         ensure  => directory,
-#         path    => '/var/www/politique.wiki',
-#         source  => '/usr/src/dokuwiki',
-#         recurse => true,
-#         owner   => 'www-data',
-#         group   => 'www-data',
-#         require => File['rename dokuwiki']
-# }
+class politique_wiki {
+    file {
+        'create politique.wiki directory':
+            ensure  => directory,
+            path    => '/var/www/politique.wiki',
+            source  => '/usr/src/dokuwiki',
+            recurse => true,
+            owner   => 'www-data',
+            group   => 'www-data',
+            require => File['rename dokuwiki']
+    }
+}
+
+node server0 {
+    include dokuwiki
+    include recettes_wiki
+}
+
+node server1 {
+    include dokuwiki
+    include politique_wiki
+}
