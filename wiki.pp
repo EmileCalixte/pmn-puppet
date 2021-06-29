@@ -26,6 +26,7 @@ class dokuwiki {
             path => '/usr/src/dokuwiki',
             ensure => present,
             source => '/usr/src/dokuwiki-2020-07-29',
+            recurse => true,
             require => Exec['extract dokuwiki']
     }
     file {
@@ -41,9 +42,9 @@ class dokuwiki {
     #}
 }
 
-class wiki {
+define install_wiki($site_name) {
     file {
-        'create recettes.wiki directory':
+        "create ${site_name} directory":
             ensure  => directory,
             path    => "/var/www/${site_name}",
             source  => '/usr/src/dokuwiki',
@@ -55,13 +56,24 @@ class wiki {
 }
 
 node server0 {
-    $site_name = 'recettes.wiki'
     include dokuwiki
-    include wiki
+    install_wiki {
+        'recettes':
+            site_name => 'recettes.wiki'
+        ;
+        'tajineworld':
+            site_name => 'tajineworld.com'
+        ;
+        'toto':
+            site_name => 'toto.com'
+        ;
+    }
 }
 
 node server1 {
-    $site_name = 'politique.wiki'
     include dokuwiki
-    include wiki
+    install_wiki {
+        'politique':
+            site_name => 'politique.wiki',
+    }
 }
