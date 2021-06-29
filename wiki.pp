@@ -16,18 +16,21 @@ exec {
     'extract dokuwiki':
         command => 'tar xavf dokuwiki.tgz',
         cwd => '/usr/src',
-        path => ['/usr/bin', '/usr/sbin']
+        path => ['/usr/bin', '/usr/sbin'],
+        require => File['download dokuwiki']
 }
 file {
     'rename dokuwiki':
         path => '/usr/src/dokuwiki',
         ensure => present,
-        source => '/usr/src/dokuwiki-2020-07-29'
+        source => '/usr/src/dokuwiki-2020-07-29',
+        require => File['extract dokuwiki']
 }
 file {
     'delete extracted dokuwiki':
         path => '/usr/src/dokuwiki-2020-07-29',
-        ensure => absent
+        ensure => absent,
+        require => File['rename dokuwiki']
 }
 #file {
 #    'delete archive':
@@ -41,7 +44,8 @@ file {
         source  => '/usr/src/dokuwiki',
         recurse => true,
         owner   => 'www-data',
-        group   => 'www-data'
+        group   => 'www-data',
+        require => File['rename dokuwiki']
 }
 file {
     'create politique.wiki directory':
@@ -50,5 +54,6 @@ file {
         source  => '/usr/src/dokuwiki',
         recurse => true,
         owner   => 'www-data',
-        group   => 'www-data'
+        group   => 'www-data',
+        require => File['rename dokuwiki']
 }
