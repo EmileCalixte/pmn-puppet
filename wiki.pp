@@ -24,7 +24,7 @@ file {
         path => '/usr/src/dokuwiki',
         ensure => present,
         source => '/usr/src/dokuwiki-2020-07-29',
-        require => File['extract dokuwiki']
+        require => Exec['extract dokuwiki']
 }
 file {
     'delete extracted dokuwiki':
