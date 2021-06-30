@@ -42,7 +42,7 @@ class dokuwiki {
     #}
 }
 
-define install_wiki($site_name) {
+define install_wiki($site_name, $document_root) {
     file {
         "create ${site_name} directory":
             ensure  => directory,
@@ -53,19 +53,28 @@ define install_wiki($site_name) {
             group   => 'www-data',
             require => File['rename dokuwiki']
     }
+    file {
+        "create ${site_name} apache2 vhost":
+            ensure  => file,
+            path    => "/etc/apache2/sites-enabled/${site_name}.conf",
+            content => template('/vagrant/pmn-puppet/templates/apache2-vhost.conf.erb') # TODO relative path
+    }
 }
 
 node server0 {
     include dokuwiki
     install_wiki {
         'recettes':
-            site_name => 'recettes.wiki'
+            site_name => 'recettes.wiki',
+            document_root => '/var/www/recettes.wiki'
         ;
         'tajineworld':
-            site_name => 'tajineworld.com'
+            site_name => 'tajineworld.com',
+            document_root => '/var/www/tajineworld.com'
         ;
         'toto':
-            site_name => 'toto.com'
+            site_name => 'toto.com',
+            document_root => '/var/www/toto.com'
         ;
     }
 }
@@ -75,5 +84,6 @@ node server1 {
     install_wiki {
         'politique':
             site_name => 'politique.wiki',
+            document_root => '/var/www/politique.wiki'
     }
 }
